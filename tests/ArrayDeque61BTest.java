@@ -19,17 +19,17 @@ public class ArrayDeque61BTest {
         // After adding one element, it should no longer be empty
         assertFalse(deque.isEmpty());
         assertEquals(2, deque.size());
-        
+
         // The first element should be the one we just added
         assertEquals(20, deque.getFirst());
     }
 
-        @Test
+    @Test
     public void addFirstWrapAroundTest() {
         Deque61B<Integer> deque = new ArrayDeque61B<>();
 
         // 5 calls to addFirst will force a wrap-around to the right side.
-        deque.addFirst(10); 
+        deque.addFirst(10);
         deque.addFirst(15);
         deque.addFirst(20);
         deque.addFirst(25);
@@ -44,7 +44,7 @@ public class ArrayDeque61BTest {
         Deque61B<Integer> deque = new ArrayDeque61B<>();
 
         // 5 calls to addFirst will force a wrap-around to the right side.
-        deque.addLast(10); 
+        deque.addLast(10);
         deque.addLast(15);
         deque.addLast(20);
         deque.addLast(25);
@@ -61,7 +61,7 @@ public class ArrayDeque61BTest {
         Deque61B<Integer> deque = new ArrayDeque61B<>();
 
         // 5 calls to addFirst will force a wrap-around to the right side.
-        deque.addLast(10); 
+        deque.addLast(10);
         deque.addFirst(5);
         deque.addLast(15);
 
@@ -70,5 +70,39 @@ public class ArrayDeque61BTest {
         assertThat(deque.get(0)).isEqualTo(5);
 
         assertThat(deque.getRecursive(0)).isNull();
+    }
+
+    @Test
+    public void removeFirstTest() {
+        Deque61B<Integer> deque = new ArrayDeque61B<>();
+
+        // 5 calls to addFirst will force a wrap-around to the right side.
+        deque.addLast(10);
+        deque.addFirst(5);
+        deque.addLast(15);
+        deque.addLast(20);
+        deque.addLast(25);
+        deque.addLast(30);
+
+        assertThat(deque.removeFirst()).isEqualTo(5);
+        assertThat(deque.toList()).containsExactly(10, 15, 20, 25, 30).inOrder();
+
+    }
+
+    @Test
+    public void removeLastTest() {
+        Deque61B<Integer> deque = new ArrayDeque61B<>();
+
+        // 5 calls to addFirst will force a wrap-around to the right side.
+        deque.addLast(10);
+        deque.addFirst(5);
+        deque.addLast(15);
+        deque.addLast(20);
+        deque.addLast(25);
+        deque.addLast(30);
+
+        assertThat(deque.removeLast()).isEqualTo(30);
+        assertThat(deque.toList()).containsExactly(5, 10, 15, 20, 25).inOrder();
+
     }
 }

@@ -102,6 +102,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         // Look at he next item (The first added one)
         front = (front + 1) % capacity;
         T item = items[front];
+        items[front] = null;
 
         size -= 1;
 
@@ -122,7 +123,8 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         // Look at previous item (the last added one)
         back = (back - 1) % capacity;
         T item = items[back];
-
+        items[back] = null;
+        
         size -= 1;
 
         if (size <= capacity / 4) {
