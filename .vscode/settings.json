@@ -87,5 +87,6 @@
         "e:\\Nozom\\Melegy\\private\\Study_AFMS\\Playground\\Berkely_CS61B\\Local\\library-sp26\\xchart-3.8.2.jar",
         "e:\\Nozom\\Melegy\\private\\Study_AFMS\\Playground\\Berkely_CS61B\\Local\\library-sp26\\xmlresolver-4.4.3.jar",
         "e:\\Nozom\\Melegy\\private\\Study_AFMS\\Playground\\Berkely_CS61B\\Local\\library-sp26\\xmlresolver-4.4.3-data.jar"
-    ]
+    ],
+    "java.compile.nullAnalysis.mode": "disabled"
 }
