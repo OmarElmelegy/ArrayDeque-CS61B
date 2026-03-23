@@ -28,7 +28,6 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         size += 1;
     }
 
-
     @Override
     public void addLast(T x) {
 
@@ -44,11 +43,11 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     @Override
     public List<T> toList() {
         if (isEmpty()) {
-            return new ArrayList<>(); 
+            return new ArrayList<>();
         }
         List<T> returnList = new ArrayList<>(size);
 
-        int currentIndex = (front + 1)  % capacity;
+        int currentIndex = (front + 1) % capacity;
 
         for (int count = 0; count < size; count++) {
             returnList.add(items[currentIndex]);
@@ -58,9 +57,22 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         return returnList;
     }
 
-     private void resize(int i) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'resize'");
+    @SuppressWarnings("unchecked")
+    private void resize(int newCapacity) {
+        T[] newItems = (T[]) new Object[newCapacity];
+
+        int new_front = (newCapacity - size) / 2;
+        int old_index;
+        for (int count = 0; count < size; count++) {
+            old_index = (front + 1 + count) % capacity;
+            newItems[new_front + count] = items[old_index];
+        }
+
+        front = new_front - 1;
+        back = new_front + size;
+
+        capacity = newCapacity;
+        items = newItems;
     }
 
     @Override
@@ -108,7 +120,6 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
 
         if (size <= capacity / 4) {
             resize(capacity / 2);
-            capacity /= 2;
         }
 
         return item;
@@ -121,15 +132,14 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         }
 
         // Look at previous item (the last added one)
-        back = (back - 1) % capacity;
+        back = (back - 1 + capacity) % capacity;
         T item = items[back];
         items[back] = null;
-        
+
         size -= 1;
 
         if (size <= capacity / 4) {
             resize(capacity / 2);
-            capacity /= 2;
         }
 
         return item;
@@ -142,7 +152,7 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
         }
 
         T item = items[front + index + 1];
-        
+
         return item;
     }
 
