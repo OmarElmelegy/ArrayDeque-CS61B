@@ -92,7 +92,7 @@ public class ArrayDeque61B<T> implements Deque61B<T>, Iterable<T> {
             return null;
         }
 
-        T item = items[front + 1];
+        T item = items[(front + 1) % capacity];
         return item;
     }
 
@@ -102,7 +102,7 @@ public class ArrayDeque61B<T> implements Deque61B<T>, Iterable<T> {
             return null;
         }
 
-        T item = items[back - 1];
+        T item = items[(back - 1 + capacity) % capacity];
         return item;
     }
 
@@ -152,7 +152,8 @@ public class ArrayDeque61B<T> implements Deque61B<T>, Iterable<T> {
             return null;
         }
 
-        T item = items[front + index + 1];
+        int physicalMemory = (front + index + 1) % capacity;
+        T item = items[physicalMemory];
 
         return item;
     }
@@ -167,12 +168,12 @@ public class ArrayDeque61B<T> implements Deque61B<T>, Iterable<T> {
         return new ArrayDeque61BIterator();
     }
 
-    private class ArrayDeque61BIterator implements Iterator<T>{
+    private class ArrayDeque61BIterator implements Iterator<T> {
         private int currIndex;
         private int count;
         private int itemIndex;
 
-        public ArrayDeque61BIterator(){
+        public ArrayDeque61BIterator() {
             currIndex = (front + 1) % capacity;
             count = 0;
         }
@@ -190,7 +191,40 @@ public class ArrayDeque61B<T> implements Deque61B<T>, Iterable<T> {
 
             return item;
         }
-        
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if ((o instanceof Deque61B)) {
+
+            Deque61B<T> other = (Deque61B<T>) o;
+
+            if (!(this.size() == other.size())) {
+                return false;
+            }
+
+            for (int i = 0; i < size; i++) {
+                if (!(this.get(i).equals(other.get(i)))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        List<String> listOfItems = new ArrayList<>();
+        for (T x : this) {
+            listOfItems.add(x.toString());
+        }
+        return "{" + String.join(", ", listOfItems) + "}";
     }
 
     public static void main(String[] args) {
@@ -207,9 +241,25 @@ public class ArrayDeque61B<T> implements Deque61B<T>, Iterable<T> {
         deque.addFirst(0);
         deque.addFirst(-1);
 
-        for (Integer i : deque) {
-            System.out.println(i);
-        }
+        System.out.println(deque.toString());
+
+        ArrayDeque61B<Integer> deque2 = new ArrayDeque61B<>();
+
+        // Assuming starting capacity is 8.
+        // Add elements to both sides to force the internal pointers
+        // to wrap around to the middle of the physical array.
+        deque2.addLast(1);
+        deque2.addLast(2);
+        deque2.addLast(3);
+        deque2.addLast(4);
+
+        deque2.addFirst(0);
+        deque2.addFirst(-1);
+
+        System.out.println(deque2.toString());
+
+        System.out.println(deque.equals(deque2));
+
     }
 
 }
