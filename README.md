@@ -7,7 +7,8 @@ It is designed to support generic types and perform addition, removal, and retri
 ## Features
 
 * **Circular Array Architecture:** Utilizes modulo arithmetic to efficiently wrap `front` and `back` pointers around the physical array bounds, treating the array as continuous and eliminating the need to shift elements.
-* **Dynamic Resizing:** * **Scales Up:** Automatically doubles in capacity when the array is completely full.
+* **Dynamic Resizing:** 
+  * **Scales Up:** Automatically doubles in capacity when the array is completely full.
   * **Scales Down:** Halves in capacity when memory usage drops to 25% or below, preventing memory waste.
   * **Re-centering:** When resizing, elements are mathematically re-centered in the new array to optimize pointer runway.
 * **Generic Types:** Supports the storage of any object type (`<T>`).
