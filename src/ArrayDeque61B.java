@@ -1,7 +1,8 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-public class ArrayDeque61B<T> implements Deque61B<T> {
+public class ArrayDeque61B<T> implements Deque61B<T>, Iterable<T> {
 
     private T[] items;
     private int size;
@@ -159,6 +160,56 @@ public class ArrayDeque61B<T> implements Deque61B<T> {
     @Override
     public T getRecursive(int index) {
         return null;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayDeque61BIterator();
+    }
+
+    private class ArrayDeque61BIterator implements Iterator<T>{
+        private int currIndex;
+        private int count;
+        private int itemIndex;
+
+        public ArrayDeque61BIterator(){
+            currIndex = (front + 1) % capacity;
+            count = 0;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return count < size;
+        }
+
+        @Override
+        public T next() {
+            itemIndex = (currIndex + count) % capacity;
+            T item = items[itemIndex];
+            count += 1;
+
+            return item;
+        }
+        
+    }
+
+    public static void main(String[] args) {
+        ArrayDeque61B<Integer> deque = new ArrayDeque61B<>();
+
+        // Assuming starting capacity is 8.
+        // Add elements to both sides to force the internal pointers
+        // to wrap around to the middle of the physical array.
+        deque.addLast(1);
+        deque.addLast(2);
+        deque.addLast(3);
+        deque.addLast(4);
+
+        deque.addFirst(0);
+        deque.addFirst(-1);
+
+        for (Integer i : deque) {
+            System.out.println(i);
+        }
     }
 
 }
